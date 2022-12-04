@@ -42,10 +42,10 @@ void AManager::Tick(float DeltaTime)
 		for (int32 Index = 0; Index != Cars.Num()-1; ++Index)
 		{
 			Distance = Cars[Index]->GetTargetLocation().X - Cars[Index + 1]->GetTargetLocation().X;
-			if (Distance <= Cars[Index + 1]->GetSpeed() || Distance < 200) {
+			if (Distance < 3*Cars[Index + 1]->GetSpeed() || Distance < 500) {
 				Cars[Index + 1]->SlowDown();
 			 }
-			else if (Distance>300 || Distance >= 2*Cars[Index + 1]->GetSpeed()){
+			else {
 				Cars[Index + 1]->SpeedUp();
 			}	
 		}
@@ -62,7 +62,7 @@ void AManager::Tick(float DeltaTime)
 void AManager::SpawnCar()
 {
 
-	nextSpawn += FMath::RandRange(2, 4);
+	nextSpawn += FMath::RandRange(4, 8);
 
 	FVector Location(0.0f, 0.0f, 0.0f);
 	FRotator Rotation(0.0f, 0.0f, 0.0f);

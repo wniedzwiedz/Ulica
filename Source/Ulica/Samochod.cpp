@@ -18,6 +18,7 @@ ASamochod::ASamochod()
 	{
 		VisualMesh->SetStaticMesh(CubeVisualAsset.Object);
 		VisualMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+		VisualMesh->SetWorldScale3D(FVector(4, 2, 1));
 	}
 
 }
@@ -28,7 +29,7 @@ void ASamochod::BeginPlay()
 	Super::BeginPlay();
 
 	speed = 0; 
-	PreferredSpeed = 10*FMath::RandRange(10, 40);
+	PreferredSpeed = 10*FMath::RandRange(10, 25);
 	
 }
 
@@ -54,7 +55,7 @@ void ASamochod::Tick(float DeltaTime)
 
 void ASamochod::SpeedUp() {
 	if (speed < PreferredSpeed-100) {
-		speed += 100;
+		speed += 10;
 	}
 	else {
 		speed = PreferredSpeed;
@@ -63,7 +64,7 @@ void ASamochod::SpeedUp() {
 }
 
 void ASamochod::SlowDown() {
-	speed -= 50;
+	speed -= 5;
 	if (speed < 0) {
 		speed = 0;
 	}
