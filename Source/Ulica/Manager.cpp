@@ -10,7 +10,7 @@ AManager::AManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	nextSpawn = 0.0f;
+	NextSpawn = 0.0f;
 
 }
 
@@ -27,14 +27,15 @@ void AManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 	if (Cars.Num() > 0) {
+
 		//remove first car if it's at the end
 
-		if (Cars[0]->GetTargetLocation().X > 3000) {
+		if (Cars[0]->GetTargetLocation().X > 10000) {
 			Cars[0]->Destroy();
 			Cars.RemoveAt(0);
 		}
 		else {
-			Cars[0]->SpeedUp();
+			Cars[0]->SpeedUp(DeltaTime);
 		}
 		
 		float Distance;
@@ -42,25 +43,27 @@ void AManager::Tick(float DeltaTime)
 		for (int32 Index = 0; Index != Cars.Num()-1; ++Index)
 		{
 			Distance = Cars[Index]->GetTargetLocation().X - Cars[Index + 1]->GetTargetLocation().X;
-			if (Distance < 4*Cars[Index + 1]->GetSpeed()) {
+
+			if (Distance < 2*Cars[Index + 1]->GetSpeed()) {
 				if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
-					Cars[Index + 1]->SlowDown();
+					Cars[Index + 1]->SlowDown(DeltaTime);
 				}
 				
 			 }
-			else if (Distance < 800) {
+			
+			else if (Distance < 600) {
 				if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
-					Cars[Index + 1]->SlowDown();
+					Cars[Index + 1]->SlowDown(DeltaTime);
 				}
 			}
 			else {
-				Cars[Index + 1]->SpeedUp();
+				Cars[Index + 1]->SpeedUp(DeltaTime);
 			}	
 		}
 	}
 
 	float RunningTime = GetGameTimeSinceCreation();
-	if (RunningTime >= nextSpawn) {
+	if (RunningTime >= NextSpawn) {
 		SpawnCar();
 	}
 
@@ -70,12 +73,12 @@ void AManager::Tick(float DeltaTime)
 void AManager::SpawnCar()
 {
 
-	nextSpawn += FMath::RandRange(5, 8);
+	NextSpawn += FMath::RandRange(4,10);
 
 	FVector Location(0.0f, 0.0f, 0.0f);
 	FRotator Rotation(0.0f, 0.0f, 0.0f);
 
-	ASamochod* Spawned = GetWorld()->SpawnActor<ASamochod>(Location, Rotation);
+	ACar* Spawned = GetWorld()->SpawnActor<ACar>(Location, Rotation);
 
 	Cars.Add(Spawned);
 

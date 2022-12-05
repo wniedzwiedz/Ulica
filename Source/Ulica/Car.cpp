@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Samochod.h"
-
+#include "Car.h"
+int acceleration = 200;
 // Sets default values
-ASamochod::ASamochod()
+ACar::ACar()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -24,27 +24,24 @@ ASamochod::ASamochod()
 }
 
 // Called when the game starts or when spawned
-void ASamochod::BeginPlay()
+void ACar::BeginPlay()
 {
 	Super::BeginPlay();
 
-	speed = 0; 
-	PreferredSpeed = 10*FMath::RandRange(10, 25);
+	Speed = 0; 
+	PreferredSpeed = 100*FMath::RandRange(3, 12);
 	
 }
 
 
 // Called every frame
-void ASamochod::Tick(float DeltaTime)
+void ACar::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-
-	//speed+= acceleration * DeltaTime;
-	
+	Super::Tick(DeltaTime);	
 	FVector Location = GetActorLocation();
 
-	if (speed > 0) {
-		Location += GetActorForwardVector() * speed * DeltaTime;
+	if (Speed > 0) {
+		Location += GetActorForwardVector() * Speed * DeltaTime;
 	}
 
 	SetActorLocation(Location);
@@ -53,23 +50,23 @@ void ASamochod::Tick(float DeltaTime)
 
 }
 
-void ASamochod::SpeedUp() {
-	if (speed < PreferredSpeed-100) {
-		speed += 10;
+void ACar::SpeedUp(float DeltaTime) {
+	if (Speed < PreferredSpeed- acceleration) {
+		Speed += acceleration* DeltaTime;
 	}
 	else {
-		speed = PreferredSpeed;
+		Speed = PreferredSpeed;
 	}
 
 }
 
-void ASamochod::SlowDown() {
-	speed -= 5;
-	if (speed < 0) {
-		speed = 0;
+void ACar::SlowDown(float DeltaTime) {
+	Speed -= acceleration* DeltaTime;
+	if (Speed < 0) {
+		Speed = 0;
 	}
 }
 
-int ASamochod::GetSpeed() {
-	return speed;
+int ACar::GetSpeed() {
+	return Speed;
 }

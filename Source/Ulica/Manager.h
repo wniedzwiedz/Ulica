@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Samochod.h"
+#include "Car.h"
 #include "Manager.generated.h"
 
 
@@ -28,6 +28,6 @@ public:
 
 
 protected:
-	int nextSpawn;
-	TArray<ASamochod*> Cars;
+	int NextSpawn;
+	TArray<ACar*> Cars;
 };
