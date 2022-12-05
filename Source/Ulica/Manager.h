@@ -22,8 +22,8 @@ class ULICA_API AManager : public AActor
 
 
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AManager();
 
@@ -31,14 +31,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void SpawnCar();
 
 
 protected:
-	int StreetLength;
-	int NextSpawn;
-	TArray<ACar*> Cars;
+	int StreetLength; 
+	int NextSpawnTime; //time until next car is spawned (seconds)
+	TArray<ACar*> Cars; //array of all existing cars
 };

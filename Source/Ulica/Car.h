@@ -19,8 +19,8 @@ class ULICA_API ACar : public AActor
 		UMaterialInterface* CarMaterial = nullptr;
 
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACar();
 
@@ -29,12 +29,13 @@ protected:
 	virtual void BeginPlay() override;
 	int Speed;
 	int PreferredSpeed;
+	int Acceleration;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void SpeedUp(float DeltaTime);
 	void SlowDown(float DeltaTime);
 	int GetSpeed();
-	
+
 };
