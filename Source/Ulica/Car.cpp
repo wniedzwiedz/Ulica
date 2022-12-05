@@ -6,16 +6,17 @@
 // Sets default values
 ACar::ACar()
 {
-
+	//start at 0 speed
 	Speed = 0;
-	PreferredSpeed = 100 * FMath::RandRange(3, 12);
-	Acceleration = 200;
+	//randomize preferred speed between 300 and 1400 cm/s (around 10-50 km/h - the slowest ones might be tractors :) )
+	PreferredSpeed = 100 * FMath::RandRange(3, 14);
+	//set random acceleration
+	Acceleration = FMath::RandRange(200, 400);
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//mesh creation
-
 	VisualMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	VisualMesh->SetupAttachment(RootComponent);
 
@@ -48,6 +49,8 @@ void ACar::BeginPlay()
 void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	//move the car according to the current speed
 	FVector Location = GetActorLocation();
 
 	if (Speed > 0) {
@@ -59,9 +62,11 @@ void ACar::Tick(float DeltaTime)
 }
 
 void ACar::SpeedUp(float DeltaTime) {
+	//accelerate if it won't exceed the preferred speed
 	if (Speed < PreferredSpeed - Acceleration) {
 		Speed += Acceleration * DeltaTime;
 	}
+	//otherwise remain at preferred speed
 	else {
 		Speed = PreferredSpeed;
 	}
@@ -69,7 +74,9 @@ void ACar::SpeedUp(float DeltaTime) {
 }
 
 void ACar::SlowDown(float DeltaTime) {
+	//slow down according to acceleration
 	Speed -= Acceleration * DeltaTime;
+	//don't allow negative speed
 	if (Speed < 0) {
 		Speed = 0;
 	}

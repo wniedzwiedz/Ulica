@@ -27,15 +27,21 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	//car speed in cm/s
 	int Speed;
+	//if possible, car will accelerate until it reaches this speed, and will not accelerate above it (cm/s)
 	int PreferredSpeed;
+	//car acceleration in cm/s^2
 	int Acceleration;
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	//increase according to set acceleration
 	void SpeedUp(float DeltaTime);
+	//decrease according to set acceleration
 	void SlowDown(float DeltaTime);
+	//return current speed
 	int GetSpeed();
 
 };

@@ -34,11 +34,15 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	// create a new car and add it to the list
 	void SpawnCar();
 
 
 protected:
+	//length of the road (cm)
 	int StreetLength; 
-	int NextSpawnTime; //time until next car is spawned (seconds)
-	TArray<ACar*> Cars; //array of all existing cars
+	//time until next car is spawned (seconds)
+	int NextSpawnTime; 
+	//array of all existing cars
+	TArray<ACar*> Cars; 
 };
