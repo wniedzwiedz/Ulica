@@ -15,6 +15,9 @@ class ULICA_API ACar : public AActor
 	UPROPERTY(VisibleAnywhere)
 		class USceneComponent* RootScene;
 
+	UPROPERTY(VisibleInstanceOnly)
+		UMaterialInterface* CarMaterial = nullptr;
+
 	GENERATED_BODY()
 	
 public:	

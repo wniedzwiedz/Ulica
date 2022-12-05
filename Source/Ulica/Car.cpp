@@ -21,6 +21,12 @@ ACar::ACar()
 		VisualMesh->SetWorldScale3D(FVector(4, 2, 1));
 	}
 
+	// material
+	FString MaterialName = "/Game/StarterContent/Materials/M_Metal_Copper.M_Metal_Copper";
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> ghostMaterialAsset(*MaterialName);
+	CarMaterial = ghostMaterialAsset.Object;
+	VisualMesh->SetMaterial(0, CarMaterial);
+
 }
 
 // Called when the game starts or when spawned

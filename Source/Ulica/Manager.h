@@ -11,6 +11,16 @@
 UCLASS()
 class ULICA_API AManager : public AActor
 {
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* VisualMesh;
+
+	UPROPERTY(VisibleAnywhere)
+		class USceneComponent* RootScene;
+
+	UPROPERTY(VisibleInstanceOnly)
+		UMaterialInterface* StreetMaterial = nullptr;
+
+
 	GENERATED_BODY()
 	
 public:	
@@ -28,6 +38,7 @@ public:
 
 
 protected:
+	int StreetLength;
 	int NextSpawn;
 	TArray<ACar*> Cars;
 };
