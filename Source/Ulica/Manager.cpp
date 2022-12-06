@@ -16,7 +16,7 @@ AManager::AManager()
 
 	//create street mesh
 	VisualMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	VisualMesh->SetupAttachment(RootComponent);
+	SetRootComponent(VisualMesh);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlaneVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Plane.Shape_Plane"));
 
@@ -68,42 +68,36 @@ void AManager::Tick(float DeltaTime)
 			{
 				Distance = Cars[Index]->GetTargetLocation().X - Cars[Index + 1]->GetTargetLocation().X;
 
-				//if they are too close at a too high speed, slow down
-				if (Distance < 2 * Cars[Index + 1]->GetSpeed()) {
-					if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
-						Cars[Index + 1]->SlowDown(DeltaTime);
-					}
-
-				}
-
-				//slow down to maintain distance on lower speed
-				else if (Distance < 600) {
+				//if they are too close at a too high speed or very close at any speed, then slow down
+				if (Distance < 2 * Cars[Index + 1]->GetSpeed() || Distance < 600) {
 					if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
 						Cars[Index + 1]->SlowDown(DeltaTime);
 					}
 				}
+
 				//speed up if nothing is in the way
 				else {
 					Cars[Index + 1]->SpeedUp(DeltaTime);
 				}
+
 			}
-
 		}
-	}
 
-	//spawn a new car if enough time passed
-	float RunningTime = GetGameTimeSinceCreation();
-	if (RunningTime >= NextSpawnTime) {
-		SpawnCar();
-	}
+		//spawn a new car if enough time passed
+		float RunningTime = GetGameTimeSinceCreation();
+		if (RunningTime >= NextSpawnTime) {
+			SpawnCar();
+		}
 
+
+	}
 
 }
 
 void AManager::SpawnCar()
 {
 	//random time until new car spawns
-	NextSpawnTime += FMath::RandRange(4, 10);
+	NextSpawnTime += FMath::RandRange(4, 8);
 
 	//place the spawned car at the beginning of the street
 	FVector Location = GetTargetLocation();

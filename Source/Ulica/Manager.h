@@ -40,9 +40,9 @@ public:
 
 protected:
 	//length of the road (cm)
-	int StreetLength; 
+	int StreetLength;
 	//time until next car is spawned (seconds)
-	int NextSpawnTime; 
+	int NextSpawnTime;
 	//array of all existing cars
-	TArray<ACar*> Cars; 
+	TArray<ACar*> Cars;
 };

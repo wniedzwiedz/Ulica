@@ -10,15 +10,15 @@ ACar::ACar()
 	Speed = 0;
 	//randomize preferred speed between 300 and 1400 cm/s (around 10-50 km/h - the slowest ones might be tractors :) )
 	PreferredSpeed = 100 * FMath::RandRange(3, 14);
-	//set random acceleration
-	Acceleration = FMath::RandRange(200, 400);
+	//set acceleration
+	Acceleration = 200;
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//mesh creation
 	VisualMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	VisualMesh->SetupAttachment(RootComponent);
+	SetRootComponent(VisualMesh);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
 
@@ -62,14 +62,10 @@ void ACar::Tick(float DeltaTime)
 }
 
 void ACar::SpeedUp(float DeltaTime) {
-	//accelerate if it won't exceed the preferred speed
-	if (Speed < PreferredSpeed - Acceleration) {
-		Speed += Acceleration * DeltaTime;
-	}
-	//otherwise remain at preferred speed
-	else {
-		Speed = PreferredSpeed;
-	}
+	//speed up according to acceleration
+	Speed += Acceleration * DeltaTime;
+	//don't allow speeds above preferred speed
+	Speed = FMath::Clamp(Speed, 0.0f, PreferredSpeed);
 
 }
 
@@ -77,9 +73,7 @@ void ACar::SlowDown(float DeltaTime) {
 	//slow down according to acceleration
 	Speed -= Acceleration * DeltaTime;
 	//don't allow negative speed
-	if (Speed < 0) {
-		Speed = 0;
-	}
+	Speed = FMath::Clamp(Speed, 0.0f, Speed);
 }
 
 int ACar::GetSpeed() {
