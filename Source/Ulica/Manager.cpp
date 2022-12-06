@@ -58,39 +58,38 @@ void AManager::Tick(float DeltaTime)
 		else {
 			Cars[0]->SpeedUp(DeltaTime);
 		}
-
-		if (Cars.Num() > 0) {
-
-			float Distance;
-
-			//check distances between cars
-			for (int32 Index = 0; Index != Cars.Num() - 1; ++Index)
-			{
-				Distance = Cars[Index]->GetTargetLocation().X - Cars[Index + 1]->GetTargetLocation().X;
-
-				//if they are too close at a too high speed or very close at any speed, then slow down
-				if (Distance < 2 * Cars[Index + 1]->GetSpeed() || Distance < 600) {
-					if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
-						Cars[Index + 1]->SlowDown(DeltaTime);
-					}
-				}
-
-				//speed up if nothing is in the way
-				else {
-					Cars[Index + 1]->SpeedUp(DeltaTime);
-				}
-
-			}
-		}
-
-		//spawn a new car if enough time passed
-		float RunningTime = GetGameTimeSinceCreation();
-		if (RunningTime >= NextSpawnTime) {
-			SpawnCar();
-		}
-
-
 	}
+
+	if (Cars.Num() > 0) {
+
+		float Distance;
+
+		//check distances between cars
+		for (int32 Index = 0; Index != Cars.Num() - 1; ++Index)
+		{
+			Distance = Cars[Index]->GetTargetLocation().X - Cars[Index + 1]->GetTargetLocation().X;
+
+			//if they are too close at a too high speed or very close at any speed, then slow down
+			if (Distance < 2 * Cars[Index + 1]->GetSpeed() || Distance < 600) {
+				if (Cars[Index + 1]->GetSpeed() > Cars[Index]->GetSpeed()) {
+					Cars[Index + 1]->SlowDown(DeltaTime);
+				}
+			}
+
+			//speed up if nothing is in the way
+			else {
+				Cars[Index + 1]->SpeedUp(DeltaTime);
+			}
+
+		}
+	}
+
+//spawn a new car if enough time passed
+float RunningTime = GetGameTimeSinceCreation();
+if (RunningTime >= NextSpawnTime) {
+	SpawnCar();
+}
+
 
 }
 
